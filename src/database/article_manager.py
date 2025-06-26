@@ -1,6 +1,6 @@
 from database.session_manager import Manager
 from models.models import Article
-from schemas.article import UpdateArticle  # локальный импорт, чтобы избежать циклов
+from schemas.article import UpdateArticle 
 
 
 class ArticleManager:

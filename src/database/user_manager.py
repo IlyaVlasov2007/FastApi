@@ -1,12 +1,31 @@
 from database.session_manager import Manager
 from models.models import User
-from schemas.user import UpdateUser  
+from schemas.user import UpdateUser, UserLogin
 
 
 class UserManager:
 
     def __init__(self):
         self.manager = Manager()
+
+    
+    def get_user_by_id(self, id: int) -> User:
+        with self.manager.get_session() as session:
+            return session.query(User).get(id)
+    
+
+    def get_user_id_by_login(self, login: str) -> int | None:
+        with self.manager.get_session() as session:
+            user = session.query(User).filter(User.login == login).first()
+            return user.id if user else None
+
+
+    def check_user_data(self, user: UserLogin):
+        with self.manager.get_session() as session:
+            return session.query(User).filter(User.login == user.login,
+                                              User.password_hash == user.password_hash)\
+                                              .first()
+
 
     def get_users(self, skip: int = 0, limit: int = 100) -> list[User]:
         """Метод получает объекты из базы данных\n

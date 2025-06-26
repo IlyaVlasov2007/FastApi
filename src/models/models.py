@@ -24,7 +24,7 @@ class User(Base):
 
     id: int = Column(Integer, primary_key=True)
 
-    login: str = Column(String, nullable=False)
+    login: str = Column(String, nullable=False, unique=True)
     password_hash: str = Column(String, nullable=False)
     role: int = Column(Integer, nullable=False, default=1)
 
